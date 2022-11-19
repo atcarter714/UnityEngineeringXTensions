@@ -1,0 +1,124 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<!-- Additional Solution Properties and Info -->
+	<PropertyGroup Label="ExtraInfo">
+		<OwnerName>AtC</OwnerName>
+		<Developers>Aaron T. Carter;</Developers>
+		<DevGitHubPage>https://github.com/atcarter714</DevGitHubPage>
+		<CompanyWebsite>https://github.com/atcarter714</CompanyWebsite>
+
+		<Company>$(OwnerName)</Company>
+		<Authors>$(Developers)</Authors>
+		<Copyright>Copyright © 2022 Aaron T. Carter, AtC. All rights reserved.</Copyright>
+
+		<SDKName>AC Samples</SDKName>
+		<ProductName>$(SDKName)</ProductName>
+		<SDKDesc>Essential Visual Studio extensions for Unity engineers</SDKDesc>
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>$(DevGitHubPage)/UnityEngineeringXTensions</RepositoryUrl>
+	</PropertyGroup>
+
+	
+	<!--Define the common paths and output directories-->
+	<PropertyGroup Label="SolutionPaths">
+
+		<!-- Define common directories -->
+		<RepoRootPath>$(MSBuildThisFileDirectory)</RepoRootPath>
+		<BinDir>$(RepoRootPath)bin</BinDir>
+		<ObjDir>$(RepoRootPath)obj</ObjDir>
+		<DocDir>$(RepoRootPath)doc</DocDir>
+		<FileDir>$(RepoRootPath)file</FileDir>
+		<SourceDir>$(RepoRootPath)src</SourceDir>
+
+
+		<!-- Project build/output paths: -->
+		<BaseOutputPath>$(BinDir)\$(Configuration)\$(TargetFramework)</BaseOutputPath>
+		<BaseIntermediateOutputPath>$(ObjDir)\$(MSBuildProjectName)</BaseIntermediateOutputPath>
+		<PackageOutputPath>$(BinDir)\Packages\$(Configuration)\$(TargetFramework)</PackageOutputPath>
+		<MSBuildProjectExtensionsPath>$(BaseIntermediateOutputPath)</MSBuildProjectExtensionsPath>
+		<ProjectAssetsFile>$(BaseIntermediateOutputPath)\project.assets.json</ProjectAssetsFile>
+
+
+		<!--NOTE: Should MSBuild add subfolders to output paths?
+			Be advised that MSBuild will, by default, try to automatically add subdirectories
+			to your custom output paths like a target framework or runtime version name ...
+			This can screw up your intended file/folder structure for your builds and cause
+			you to end up with extra/repeating sub-folders and things ending up in strange,
+			deeper-level directories instead of where they belong, and is very annoying ...
+			Setting these properties to "false" will prevent this from happening to you ... -->
+		<!--Disable MSBuild defaults that add framework/runtime subdirectories-->
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+
+	</PropertyGroup>
+
+
+	<!-- Define common build settings and properties -->
+	<PropertyGroup Label="CommonBuildSettings">
+
+		<!-- Target platforms, frameworks and build configuration -->
+		<!--<TargetFrameworks>net6.0;net7.0;</TargetFrameworks>-->
+
+
+		<!-- Compiler settings and options -->
+		<LangVersion>latest</LangVersion>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>true</ImplicitUsings>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+
+		<!--Build events and update checking-->
+		<RunPostBuildEvent>Always</RunPostBuildEvent>
+		<DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
+
+
+		<!-- Code Analysis and Refactoring Settings -->
+		<AnalysisLevel>latest</AnalysisLevel>
+		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+		<RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+
+
+		<RootNamespace>AC</RootNamespace>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<IsTestProject>$(AssemblyName.Contains('Test'))</IsTestProject>
+		<IsLibrary Condition="'$(TargetType)'=='Library'" />
+		<IsDotNetCore Condition="'$(MSBuildRuntimeType)'!='Core'" />
+		<DocumentationFile>$(DocDir)\$(AssemblyName)\</DocumentationFile>
+
+		<!-- Share one, common version.json file with all projects in a large build. -->
+		<GitVersionBaseDirectory>$(MSBuildThisFileDirectory)</GitVersionBaseDirectory>
+
+		<!-- Local builds should embed PDBs so we never lose them when a subsequent build occurs. -->
+		<DebugType Condition=" '$(CI)' != 'true' and '$(TF_BUILD)' != 'true' ">embedded</DebugType>
+
+		<!-- Signing Strongly-Named Assemblies -->
+		<!--<SignAssembly>true</SignAssembly>
+		<AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)file\keys\strongname.snk</AssemblyOriginatorKeyFile>-->
+
+
+		<!--Package Reference Properties-->
+		<!--<PackageReference Include="xxx" Version="0.7.4" Condition="'$(MSBuildRuntimeType)'!='Core'" />-->
+
+	</PropertyGroup>
+
+	<!-- NuGet Package Build Settings -->
+	<!--<PropertyGroup Label="PackageOutputProps">
+		<PackageProjectUrl>https://github.com/atcarter714/the_package_url/</PackageProjectUrl>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<IncludeSymbols Condition=" '$(DebugType)' != 'embedded' ">true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	</PropertyGroup>-->
+
+
+	<PropertyGroup Label="Hacks">
+		<!-- 	WARNING: This pattern is there to ignore folders such as .git and .vs, 
+		but it will also match items included with a relative path outside the 
+		project folder (for example "..\Shared\Shared.cs").  So be sure only to 
+		apply it to items that are in the project folder. Support both 
+		DefaultItemExcludesInProjectFolder and DefaultExcludesInProjectFolder
+		properties because of a naming mistake. -->
+		<DefaultExcludesInProjectFolder>$(DefaultExcludesInProjectFolder);$(DefaultItemExcludesInProjectFolder);**/.*/**</DefaultExcludesInProjectFolder>
+	</PropertyGroup>
+
+</Project>
