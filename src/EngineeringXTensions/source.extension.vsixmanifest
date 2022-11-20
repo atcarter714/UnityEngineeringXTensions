@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+    <Metadata>
+        <Identity Id="EngineeringXTensions.3a20dd24-3dda-4043-963a-726ccf3a2899" Version="0.1" Language="en-US" Publisher="Aaron T. Carter" />
+        <DisplayName>Unity Engineering XTensions</DisplayName>
+        <Description xml:space="preserve">A set of powerful templates, tools and extras for Unity engineers to power up your development speed and quality of life when working with Unity projects.A set of power
+        <MoreInfo>https://github.com/atcarter714/UnityEngineeringXTensions</MoreInfo>ful </Description>
+        <Icon>Resources\Icon.png</Icon>
+        <PreviewImage>Resources\Icon.png</PreviewImage>
+        <Tags>unity; game; game dev; engine; tools; templates;</Tags>
+        <Preview>true</Preview>
+    </Metadata>
+    <Installation>
+        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0)">
+            <ProductArchitecture>amd64</ProductArchitecture>
+        </InstallationTarget>
+        <InstallationTarget Version="[17.0,18.0)" Id="Microsoft.VisualStudio.Community">
+            <ProductArchitecture>arm64</ProductArchitecture>
+        </InstallationTarget>
+    </Installation>
+    <Prerequisites>
+        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[17.0,)" DisplayName="Visual Studio core editor" />
+        <Prerequisite Id="Component.UnityEngine.x64" Version="[17.5.33102.175,18.0)" DisplayName="Unity Hub" />
+    </Prerequisites>
+    <Assets>
+        <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+    </Assets>
+</PackageManifest>
